@@ -4,11 +4,11 @@ const game_screen_size = Vector2i(192, 144)
 
 const _first_lv_coords = Vector2i(0, 0)
 const _map = [
-	[ 0,  1, -1],
-	[-1,  2, -1],
-	[-1,  3, -1],
-	[-1,  4,  5],
-	[-1,  6, -1],
+	[ 0,  1, -1, -1, -1],
+	[-1,  2, -1, -1, -1],
+	[-1,  3, -1, -1, -1],
+	[-1,  4,  5,  7,  8],
+	[-1,  6, 11, 10,  9],
 ]
 
 @export var _levels: Array[PackedScene]
