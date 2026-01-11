@@ -284,7 +284,6 @@ fall_speed = 160.0
 float_fall_speed = 40.0
 spawn_pos = Vector2(5, -3)
 box_jump_spawn_pos = Vector2(2, 4)
-box_jump_offset = Vector2(4, -5)
 box_spawn_vel = Vector2(100, -100)
 float_box = ExtResource("2_yw30f")
 

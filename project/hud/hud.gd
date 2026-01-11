@@ -6,8 +6,10 @@ extends Control
 @onready var _game_screen: TextureRect = %GameScreen
 @onready var _level_title: Label = %LevelTitle
 @onready var _prompt: Label = %Prompt
-@onready var _text_container: CenterContainer = %TextBoxContainer
-@onready var _text_label: Label = %TextLabel
+@onready var _first_text_container: CenterContainer = %FirstTextContainer
+@onready var _final_text_container: CenterContainer = %FinalTextContainer
+@onready var _first_text_label: Label = %FirstTextLabel
+@onready var _final_text_label: Label = %FinalTextLabel
 
 var _next_prompt: String = ""
 
@@ -31,13 +33,24 @@ func set_prompt(new_prompt: String) -> void:
 	_next_prompt = new_prompt
 
 
-func set_text_box(text: String) -> void:
-	_text_container.show()
-	_text_label.text = text
+func set_text_box(text_1: String, text_2: String = "") -> void:
+	if text_2:
+		_first_text_label.text = text_1
+		_final_text_label.text = text_2
+		_first_text_container.show()
+		_final_text_container.show()
+	else:
+		_final_text_label.text = text_1
+		_final_text_container.show()
 	get_tree().paused = true
 
 
-func _on_close_text_button_pressed() -> void:
-	_text_container.hide()
-	_text_label.text = ""
+func _on_close_button_pressed() -> void:
+	_final_text_container.hide()
+	_final_text_label.text = ""
 	get_tree().paused = false
+
+
+func _on_next_button_pressed() -> void:
+	_first_text_container.hide()
+	_first_text_label.text = ""

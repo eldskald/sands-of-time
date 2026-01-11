@@ -23,7 +23,6 @@ enum State { STANDING, MOVING, JUMPING, AIRBORNE, LIFTING, BOX_JUMPING }
 @export_category("Throwables")
 @export var spawn_pos: Vector2
 @export var box_jump_spawn_pos: Vector2
-@export var box_jump_offset: Vector2
 @export var box_spawn_vel: Vector2
 @export var float_box: PackedScene
 
@@ -87,7 +86,6 @@ func _box_jump() -> void:
 	_carrying = false
 	_set_state(State.AIRBORNE)
 	velocity.y = -box_jump_speed
-	#position += Vector2(_facing * box_jump_offset.x, box_jump_offset.y)
 
 
 func _set_state(new_state: State) -> void:
