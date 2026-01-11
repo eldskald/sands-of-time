@@ -3,6 +3,7 @@ extends Control
 
 @export var _game_viewport: NodePath
 
+@onready var _player: Player = Globals.get_player()
 @onready var _game_screen: TextureRect = %GameScreen
 @onready var _level_title: Label = %LevelTitle
 @onready var _prompt: Label = %Prompt
@@ -10,6 +11,8 @@ extends Control
 @onready var _final_text_container: CenterContainer = %FinalTextContainer
 @onready var _first_text_label: Label = %FirstTextLabel
 @onready var _final_text_label: Label = %FinalTextLabel
+@onready var _shovel_btn: Button = %ShovelBtn
+@onready var _red_shard_btn: Button = %RedShardBtn
 
 var _next_prompt: String = ""
 
@@ -45,6 +48,20 @@ func set_text_box(text_1: String, text_2: String = "") -> void:
 	get_tree().paused = true
 
 
+func set_red_shards(amount: int) -> void:
+	if not _red_shard_btn.visible:
+		_red_shard_btn.show()
+		set_text_box("Red shard obtained. Equip and click to throw.")
+	_red_shard_btn.text = str(amount) + "/4 R Shards"
+	if amount == 0:
+		_red_shard_btn.disabled = true
+		_red_shard_btn.set_pressed_no_signal(false)
+		_shovel_btn.set_pressed_no_signal(true)
+		_player.equip_shovel()
+	else:
+		_red_shard_btn.disabled = false
+
+
 func _on_close_button_pressed() -> void:
 	_final_text_container.hide()
 	_final_text_label.text = ""
@@ -59,3 +76,15 @@ func _on_next_button_pressed() -> void:
 func _on_game_screen_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_action_pressed("click"):
 		Globals.get_player().click_on(event.position)
+
+
+func _on_shovel_btn_pressed() -> void:
+	_red_shard_btn.set_pressed_no_signal(false)
+	_shovel_btn.set_pressed_no_signal(true)
+	_player.equip_shovel()
+
+
+func _on_red_shard_btn_pressed() -> void:
+	_red_shard_btn.set_pressed_no_signal(true)
+	_shovel_btn.set_pressed_no_signal(false)
+	_player.equip_shards()

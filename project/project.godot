@@ -74,6 +74,7 @@ click={
 2d_physics/layer_2="dirt"
 2d_physics/layer_3="blocks"
 2d_physics/layer_4="platforms"
+2d_physics/layer_5="float_box"
 
 [rendering]
 

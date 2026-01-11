@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://demhff82lbtt7"]
+[gd_scene load_steps=23 format=3 uid="uid://demhff82lbtt7"]
 
 [ext_resource type="Texture2D" uid="uid://buayg4cbwgjxq" path="res://resources/textures/spritesheet.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bh6hu381skku1" path="res://player/player.gd" id="1_rkbax"]
 [ext_resource type="PackedScene" uid="uid://bwn42fyylanlh" path="res://interactables/float-box.tscn" id="2_yw30f"]
 [ext_resource type="Script" uid="uid://waxrpng8sp07" path="res://player/player-sprite.gd" id="3_g1dw6"]
+[ext_resource type="PackedScene" uid="uid://crwrfnwsis7gp" path="res://player/red-projectile.tscn" id="3_qjkh3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkbax"]
 atlas = ExtResource("1_oul6g")
@@ -389,10 +390,12 @@ fall_speed = 160.0
 float_fall_speed = 40.0
 dig_range = Vector2(12, 20)
 radius = 6
+max_shards = 4
 spawn_pos = Vector2(5, -3)
 box_jump_spawn_pos = Vector2(2, 4)
 box_spawn_vel = Vector2(100, -100)
 float_box = ExtResource("2_yw30f")
+red_projectile = ExtResource("3_qjkh3")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 visible = false

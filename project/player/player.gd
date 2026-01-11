@@ -9,7 +9,7 @@ enum State {
 	DIGGING_DOWN, DIGGING_FORWARD, DIGGING_UP,
 }
 
-@export_category("Basic Movement")
+@export_category("Movement")
 @export var speed: float
 @export var acceleration: float
 @export var air_acceleration: float
@@ -28,15 +28,16 @@ enum State {
 @export var radius: int
 
 @export_category("Throwables")
+@export var max_shards: int
 @export var spawn_pos: Vector2
 @export var box_jump_spawn_pos: Vector2
 @export var box_spawn_vel: Vector2
 @export var float_box: PackedScene
+@export var red_projectile: PackedScene
 
 @onready var _sprite: PlayerSprite = %PlayerSprite
 @onready var _platform_drop_timer: Timer = %PlatformDropTimer
 @onready var _coyote_timer: Timer = %CoyoteJumpTimer
-@onready var _dirt_down: GPUParticles2D = %DirtDown
 
 var _facing: float = 1.0
 var _state: State = State.STANDING
@@ -45,6 +46,21 @@ var _changing_level: bool = false
 var _carrying: bool = false
 var _about_to_lift: Node = null
 var _digging_on: Vector2 = Vector2.ZERO
+var _shovel_equipped: bool = true
+var _shards: int = 0
+
+
+func equip_shovel() -> void:
+	_shovel_equipped = true
+
+
+func equip_shards() -> void:
+	_shovel_equipped = false
+
+
+func add_shard() -> void:
+	_shards = min(_shards + 1, max_shards)
+	Globals.get_hud().set_red_shards(_shards)
 
 
 func changing_level(is_going_up: bool = false) -> void:
@@ -56,24 +72,39 @@ func changing_level(is_going_up: bool = false) -> void:
 
 
 func click_on(pos: Vector2) -> void:
-	if not _is_controllable() or not is_on_floor():
+	if not _is_controllable():
 		return
-	if abs(pos.x - position.x) > dig_range.x or abs(pos.y - position.y) > dig_range.y:
-		return
-	var dir = pos - position
-	var face = Vector2(_facing, 0.0)
-	if face.dot(dir) < 0.0:
-		_facing *= -1
-		facing_changed.emit(_facing)
-	face = Vector2(_facing, 0.0)
-	var angle = dir.angle_to(face)
-	if angle <= -PI / 8:
-		_set_state(State.DIGGING_DOWN)
-	elif angle >= PI / 8:
-		_set_state(State.DIGGING_UP)
+	if _shovel_equipped:
+		if not is_on_floor() and not _carrying:
+			return
+		if abs(pos.x - position.x) > dig_range.x or abs(pos.y - position.y) > dig_range.y:
+			return
+		var dir = pos - position
+		var face = Vector2(_facing, 0.0)
+		if face.dot(dir) < 0.0:
+			_facing *= -1
+			facing_changed.emit(_facing)
+		face = Vector2(_facing, 0.0)
+		var angle = dir.angle_to(face)
+		if angle <= -PI / 8:
+			_set_state(State.DIGGING_DOWN)
+		elif angle >= PI / 8:
+			_set_state(State.DIGGING_UP)
+		else:
+			_set_state(State.DIGGING_FORWARD)
+		_digging_on = pos
 	else:
-		_set_state(State.DIGGING_FORWARD)
-	_digging_on = pos
+		_shards = max(_shards - 1, 0)
+		Globals.get_hud().set_red_shards(_shards)
+		var dir = pos - position
+		if Vector2(_facing, 0.0).dot(dir) < 0.0:
+			_facing *= -1
+			facing_changed.emit(_facing)
+		var projectile = red_projectile.instantiate()
+		projectile.position = position
+		projectile.set_velocity(dir)
+		Globals.get_level().add_child(projectile)
+		_sprite.animate_throw()
 
 
 func get_state() -> State:

@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=4 uid="uid://cr3wjofqqoncc"]
+[gd_scene load_steps=3 format=4 uid="uid://cr3wjofqqoncc"]
 
 [ext_resource type="PackedScene" uid="uid://drnfb2ioal1wc" path="res://levels/level.tscn" id="1_too4h"]
+[ext_resource type="PackedScene" uid="uid://bgamv28lq704p" path="res://interactables/red-shard.tscn" id="2_qvfee"]
 
 [node name="Level" instance=ExtResource("1_too4h")]
 _title = "Right"
 
 [node name="BlocksLayer" parent="." index="1"]
 tile_map_data = PackedByteArray("AAAAAAwAAAABAAEAAAABAAwAAAABAAEAAAACAAwAAAABAAEAAAADAAwAAAABAAEAAAAGAAwAAAACAAEAAAAEAAwAAAABAAEAAAAFAAwAAAABAAEAAAAGAA0AAAACAAIAAAAGAA4AAAACAAIAAAAGAA8AAAACAAIAAAAGABAAAAACAAIAAAAGABEAAAACAAIAAAA=")
+
+[node name="RedShard" parent="." index="4" instance=ExtResource("2_qvfee")]
+position = Vector2(38, 76)

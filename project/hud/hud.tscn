@@ -1,7 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://ckfiu0skuegje"]
+[gd_scene load_steps=10 format=3 uid="uid://ckfiu0skuegje"]
 
 [ext_resource type="FontFile" uid="uid://c2x1quwgrr3sw" path="res://resources/fonts/Acme 7 Wide Xtnd.ttf" id="1_6ca3a"]
 [ext_resource type="Script" uid="uid://c3hy7gk6mlbdp" path="res://hud/hud.gd" id="2_2gk58"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjv1a"]
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gk58"]
 
@@ -52,7 +56,15 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="Theme" id="Theme_318vg"]
 default_font = ExtResource("1_6ca3a")
 BoxContainer/constants/separation = 4
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 8
+Button/styles/disabled = SubResource("StyleBoxFlat_fjv1a")
 Button/styles/focus = SubResource("StyleBoxEmpty_2gk58")
 Button/styles/hover = SubResource("StyleBoxFlat_w8tcp")
 Button/styles/normal = SubResource("StyleBoxFlat_2gk58")
@@ -114,9 +126,35 @@ unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MenuSide" type="VBoxContainer" parent="HBoxContainer"]
+[node name="MenuSide" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MenuSide"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/MenuSide/VBoxContainer"]
+layout_mode = 2
+text = "Items"
+
+[node name="ItemsContainer" type="VBoxContainer" parent="HBoxContainer/MenuSide/VBoxContainer"]
+layout_mode = 2
+
+[node name="ShovelBtn" type="Button" parent="HBoxContainer/MenuSide/VBoxContainer/ItemsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+action_mode = 0
+text = "Shovel"
+
+[node name="RedShardBtn" type="Button" parent="HBoxContainer/MenuSide/VBoxContainer/ItemsContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
 
 [node name="FinalTextContainer" type="CenterContainer" parent="."]
 unique_name_in_owner = true
@@ -195,5 +233,7 @@ layout_mode = 2
 text = "Next"
 
 [connection signal="gui_input" from="HBoxContainer/LevelSide/MarginContainer/PanelContainer/GameScreen" to="." method="_on_game_screen_gui_input"]
+[connection signal="pressed" from="HBoxContainer/MenuSide/VBoxContainer/ItemsContainer/ShovelBtn" to="." method="_on_shovel_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/MenuSide/VBoxContainer/ItemsContainer/RedShardBtn" to="." method="_on_red_shard_btn_pressed"]
 [connection signal="pressed" from="FinalTextContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="FirstTextContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer/NextButton" to="." method="_on_next_button_pressed"]

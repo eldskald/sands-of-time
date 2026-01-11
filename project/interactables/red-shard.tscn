@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgamv28lq704p"]
+
+[ext_resource type="Script" uid="uid://ntiq3osx1jed" path="res://interactables/red-shard.gd" id="1_k70at"]
+[ext_resource type="Texture2D" uid="uid://buayg4cbwgjxq" path="res://resources/textures/spritesheet.png" id="2_mx5po"]
+[ext_resource type="Script" uid="uid://0126yehirvr6" path="res://interactables/interact-area.gd" id="3_53t4a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhfd2"]
+atlas = ExtResource("2_mx5po")
+region = Rect2(36, 8, 4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hf8yh"]
+size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ek35v"]
+size = Vector2(12, 2)
+
+[node name="RedShard" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 14
+script = ExtResource("1_k70at")
+gravity = 400.0
+fall_speed = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_jhfd2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_hf8yh")
+
+[node name="InteractArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+script = ExtResource("3_53t4a")
+_prompt = "Pick up"
+metadata/_custom_type_script = "uid://0126yehirvr6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_ek35v")
+
+[connection signal="interaction" from="InteractArea" to="." method="_on_interact"]
