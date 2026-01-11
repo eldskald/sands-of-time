@@ -1,0 +1,12 @@
+[gd_scene load_steps=7 format=3 uid="uid://cnrs8ssv5h2uh"]
+
+[ext_resource type="Script" uid="uid://qcph7kwli7qa" path="res://globals/globals.gd" id="1_jmrm8"]
+[ext_resource type="PackedScene" uid="uid://cre3eq4gj1u0d" path="res://levels/test.tscn" id="2_6nnoh"]
+[ext_resource type="PackedScene" uid="uid://bb1m04o1rrs02" path="res://levels/test-down.tscn" id="3_edakw"]
+[ext_resource type="PackedScene" uid="uid://biwom6an7usha" path="res://levels/test-up.tscn" id="4_5xox1"]
+[ext_resource type="PackedScene" uid="uid://glcbrh86bioa" path="res://levels/test-left.tscn" id="5_qn7xf"]
+[ext_resource type="PackedScene" uid="uid://cr3wjofqqoncc" path="res://levels/test-right.tscn" id="6_l0aqu"]
+
+[node name="Globals" type="Node"]
+script = ExtResource("1_jmrm8")
+_levels = Array[PackedScene]([ExtResource("2_6nnoh"), ExtResource("3_edakw"), ExtResource("4_5xox1"), ExtResource("5_qn7xf"), ExtResource("6_l0aqu")])

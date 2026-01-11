@@ -1,0 +1,158 @@
+[gd_scene load_steps=9 format=3 uid="uid://ckfiu0skuegje"]
+
+[ext_resource type="FontFile" uid="uid://c2x1quwgrr3sw" path="res://resources/fonts/Acme 7 Wide Xtnd.ttf" id="1_6ca3a"]
+[ext_resource type="Script" uid="uid://c3hy7gk6mlbdp" path="res://hud/hud.gd" id="2_2gk58"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gk58"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8tcp"]
+content_margin_left = 7.0
+content_margin_top = 0.0
+content_margin_right = 7.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2gk58"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_svhta"]
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_right = 6.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_318vg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_318vg"]
+default_font = ExtResource("1_6ca3a")
+BoxContainer/constants/separation = 4
+Button/font_sizes/font_size = 8
+Button/styles/focus = SubResource("StyleBoxEmpty_2gk58")
+Button/styles/hover = SubResource("StyleBoxFlat_w8tcp")
+Button/styles/normal = SubResource("StyleBoxFlat_2gk58")
+Button/styles/pressed = SubResource("StyleBoxFlat_svhta")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 8
+Label/fonts/font = ExtResource("1_6ca3a")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_318vg")
+
+[node name="HUD" type="Control" groups=["hud"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_318vg")
+script = ExtResource("2_2gk58")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelSide" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LevelTitle" type="Label" parent="HBoxContainer/LevelSide"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/LevelSide"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = -1
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = -1
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/LevelSide/MarginContainer"]
+layout_mode = 2
+
+[node name="GameScreen" type="TextureRect" parent="HBoxContainer/LevelSide/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="HBoxContainer/LevelSide"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="MenuSide" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextBoxContainer" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="TextBoxContainer"]
+custom_minimum_size = Vector2(260, 160)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TextBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TextLabel" type="Label" parent="TextBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TextBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="TextBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CloseTextButton" type="Button" parent="TextBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer"]
+layout_mode = 2
+text = "Close"
+
+[connection signal="pressed" from="TextBoxContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer/CloseTextButton" to="." method="_on_close_text_button_pressed"]

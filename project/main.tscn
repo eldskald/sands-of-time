@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfrtdfs7u5k4"]
+
+[ext_resource type="Script" uid="uid://c2xyekemgftyv" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://ckfiu0skuegje" path="res://hud/hud.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://demhff82lbtt7" path="res://player/player.tscn" id="3_h2yge"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ig7tw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_0xm2m")]
+unique_name_in_owner = true
+_game_viewport = NodePath("../../GameScreen")
+
+[node name="GameScreen" type="SubViewport" parent="."]
+unique_name_in_owner = true
+snap_2d_transforms_to_pixel = true
+
+[node name="Game" type="Node2D" parent="GameScreen"]
+
+[node name="LevelContainer" type="Node2D" parent="GameScreen/Game"]
+unique_name_in_owner = true
+
+[node name="Player" parent="GameScreen/Game" instance=ExtResource("3_h2yge")]

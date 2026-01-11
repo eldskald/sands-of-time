@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=4 uid="uid://cr3wjofqqoncc"]
+
+[ext_resource type="PackedScene" uid="uid://drnfb2ioal1wc" path="res://levels/level.tscn" id="1_too4h"]
+
+[node name="Level" instance=ExtResource("1_too4h")]
+_title = "Right"
+
+[node name="BlocksLayer" parent="." index="1"]
+tile_map_data = PackedByteArray("AAAAAAwAAAABAAEAAAABAAwAAAABAAEAAAACAAwAAAABAAEAAAADAAwAAAABAAEAAAAGAAwAAAACAAEAAAAEAAwAAAABAAEAAAAFAAwAAAABAAEAAAAGAA0AAAACAAIAAAAGAA4AAAACAAIAAAAGAA8AAAACAAIAAAAGABAAAAACAAIAAAAGABEAAAACAAIAAAA=")
