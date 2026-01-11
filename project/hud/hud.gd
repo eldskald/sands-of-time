@@ -54,3 +54,8 @@ func _on_close_button_pressed() -> void:
 func _on_next_button_pressed() -> void:
 	_first_text_container.hide()
 	_first_text_label.text = ""
+
+
+func _on_game_screen_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_action_pressed("click"):
+		Globals.get_player().click_on(event.position)

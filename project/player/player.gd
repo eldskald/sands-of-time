@@ -4,7 +4,10 @@ extends CharacterBody2D
 signal state_changed(new_state: State)
 signal facing_changed(new_facing: float)
 
-enum State { STANDING, MOVING, JUMPING, AIRBORNE, LIFTING, BOX_JUMPING }
+enum State {
+	STANDING, MOVING, JUMPING, AIRBORNE, LIFTING, BOX_JUMPING,
+	DIGGING_DOWN, DIGGING_FORWARD, DIGGING_UP,
+}
 
 @export_category("Basic Movement")
 @export var speed: float
@@ -20,6 +23,10 @@ enum State { STANDING, MOVING, JUMPING, AIRBORNE, LIFTING, BOX_JUMPING }
 @export var fall_speed: float
 @export var float_fall_speed: float
 
+@export_category("Digging")
+@export var dig_range: Vector2
+@export var radius: int
+
 @export_category("Throwables")
 @export var spawn_pos: Vector2
 @export var box_jump_spawn_pos: Vector2
@@ -29,6 +36,7 @@ enum State { STANDING, MOVING, JUMPING, AIRBORNE, LIFTING, BOX_JUMPING }
 @onready var _sprite: PlayerSprite = %PlayerSprite
 @onready var _platform_drop_timer: Timer = %PlatformDropTimer
 @onready var _coyote_timer: Timer = %CoyoteJumpTimer
+@onready var _dirt_down: GPUParticles2D = %DirtDown
 
 var _facing: float = 1.0
 var _state: State = State.STANDING
@@ -36,6 +44,7 @@ var _old_vel: Vector2 = Vector2.ZERO
 var _changing_level: bool = false
 var _carrying: bool = false
 var _about_to_lift: Node = null
+var _digging_on: Vector2 = Vector2.ZERO
 
 
 func changing_level(is_going_up: bool = false) -> void:
@@ -46,12 +55,33 @@ func changing_level(is_going_up: bool = false) -> void:
 	_changing_level = true
 
 
+func click_on(pos: Vector2) -> void:
+	if not _is_controllable() or not is_on_floor():
+		return
+	if abs(pos.x - position.x) > dig_range.x or abs(pos.y - position.y) > dig_range.y:
+		return
+	var dir = pos - position
+	var face = Vector2(_facing, 0.0)
+	if face.dot(dir) < 0.0:
+		_facing *= -1
+		facing_changed.emit(_facing)
+	face = Vector2(_facing, 0.0)
+	var angle = dir.angle_to(face)
+	if angle <= -PI / 8:
+		_set_state(State.DIGGING_DOWN)
+	elif angle >= PI / 8:
+		_set_state(State.DIGGING_UP)
+	else:
+		_set_state(State.DIGGING_FORWARD)
+	_digging_on = pos
+
+
 func get_state() -> State:
 	return _state
 
 
 func can_interact() -> bool:
-	return not _carrying and is_on_floor() and _state != State.LIFTING
+	return not _carrying and is_on_floor() and _is_controllable()
 
 
 func is_carrying() -> bool:
@@ -62,6 +92,13 @@ func lift_float_box(box: Node) -> void:
 	_set_state(State.LIFTING)
 	velocity = Vector2.ZERO
 	_about_to_lift = box
+
+
+func _is_controllable() -> bool:
+	return not _state in [
+		State.LIFTING, State.BOX_JUMPING, State.DIGGING_DOWN,
+		State.DIGGING_FORWARD, State.DIGGING_UP
+	]
 
 
 func _drop_down() -> void:
@@ -76,6 +113,20 @@ func _free_lifted_box() -> void:
 
 func _end_lift_animation() -> void:
 	_carrying = true
+	_set_state(State.STANDING)
+
+
+func _dig() -> void:
+	var points: Array[Vector2] = []
+	for i in range(-radius, radius + 1):
+		for j in range(-radius, radius + 1):
+			var p = Vector2(i, j) + _digging_on
+			if _digging_on.distance_to(p) <= radius:
+				points.append(p)
+	Globals.get_level().clear_dirt(points)
+
+
+func _end_digging_animation() -> void:
 	_set_state(State.STANDING)
 
 
@@ -132,7 +183,7 @@ func _physics_process(delta: float) -> void:
 		_changing_level = false
 		return
 	
-	if _state != State.LIFTING and _state != State.BOX_JUMPING:
+	if _is_controllable():
 		var dir_input = _get_input_dir()
 		if dir_input != 0.0:
 			if _facing != dir_input:

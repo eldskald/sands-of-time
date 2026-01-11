@@ -194,5 +194,6 @@ layout_mode = 2
 layout_mode = 2
 text = "Next"
 
+[connection signal="gui_input" from="HBoxContainer/LevelSide/MarginContainer/PanelContainer/GameScreen" to="." method="_on_game_screen_gui_input"]
 [connection signal="pressed" from="FinalTextContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="FirstTextContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer/NextButton" to="." method="_on_next_button_pressed"]

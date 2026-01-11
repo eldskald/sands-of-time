@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://demhff82lbtt7"]
+[gd_scene load_steps=22 format=3 uid="uid://demhff82lbtt7"]
 
 [ext_resource type="Texture2D" uid="uid://buayg4cbwgjxq" path="res://resources/textures/spritesheet.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bh6hu381skku1" path="res://player/player.gd" id="1_rkbax"]
@@ -251,6 +251,108 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_wodsf"]
+resource_name = "digging_down"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [9, 10, 11]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"_dig"
+}, {
+"args": [],
+"method": &"_end_digging_animation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_32hag"]
+resource_name = "digging_forward"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [12, 13, 14]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"_dig"
+}, {
+"args": [],
+"method": &"_end_digging_animation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_tqiix"]
+resource_name = "digging_up"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [15, 16, 17]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"_dig"
+}, {
+"args": [],
+"method": &"_end_digging_animation"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hg6s5"]
 _data = {
 &"RESET": SubResource("Animation_qjkh3"),
@@ -259,6 +361,9 @@ _data = {
 &"carrying_airborne": SubResource("Animation_hg6s5"),
 &"carrying_moving": SubResource("Animation_boad6"),
 &"carrying_standing": SubResource("Animation_g1dw6"),
+&"digging_down": SubResource("Animation_wodsf"),
+&"digging_forward": SubResource("Animation_32hag"),
+&"digging_up": SubResource("Animation_tqiix"),
 &"lift": SubResource("Animation_8t03j"),
 &"moving": SubResource("Animation_g6k8r"),
 &"standing": SubResource("Animation_yw30f"),
@@ -282,6 +387,8 @@ coyote_jump_time = 0.15
 gravity = 600.0
 fall_speed = 160.0
 float_fall_speed = 40.0
+dig_range = Vector2(12, 20)
+radius = 6
 spawn_pos = Vector2(5, -3)
 box_jump_spawn_pos = Vector2(2, 4)
 box_spawn_vel = Vector2(100, -100)

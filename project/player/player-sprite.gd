@@ -13,6 +13,9 @@ var _state_animations: Dictionary = {
 	Player.State.AIRBORNE: "airborne",
 	Player.State.LIFTING: "lift",
 	Player.State.BOX_JUMPING: "box_jump",
+	Player.State.DIGGING_DOWN: "digging_down",
+	Player.State.DIGGING_FORWARD: "digging_forward",
+	Player.State.DIGGING_UP: "digging_up",
 }
 
 var _carrying_state_animations: Dictionary = {
