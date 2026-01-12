@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://ckfiu0skuegje"]
+[gd_scene load_steps=17 format=3 uid="uid://ckfiu0skuegje"]
 
 [ext_resource type="FontFile" uid="uid://c2x1quwgrr3sw" path="res://resources/fonts/Acme 7 Wide Xtnd.ttf" id="1_6ca3a"]
 [ext_resource type="Script" uid="uid://c3hy7gk6mlbdp" path="res://hud/hud.gd" id="2_2gk58"]
+[ext_resource type="AudioStream" uid="uid://djketayp5fb4y" path="res://resources/sounds/blip.wav" id="3_318vg"]
+[ext_resource type="AudioStream" uid="uid://n76krnxxqfy1" path="res://resources/sounds/pickup.wav" id="4_w8tcp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjv1a"]
 bg_color = Color(0, 0, 0, 1)
@@ -274,6 +276,16 @@ layout_mode = 2
 [node name="NextButton" type="Button" parent="FirstTextContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/CenterContainer"]
 layout_mode = 2
 text = "Next"
+
+[node name="BlipSFX" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("3_318vg")
+
+[node name="NewLogSFX" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("4_w8tcp")
 
 [connection signal="gui_input" from="HBoxContainer/LevelSide/MarginContainer/PanelContainer/GameScreen" to="." method="_on_game_screen_gui_input"]
 [connection signal="pressed" from="HBoxContainer/MenuSide/VBoxContainer/ItemsContainer/ShovelBtn" to="." method="_on_shovel_btn_pressed"]

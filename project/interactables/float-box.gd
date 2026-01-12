@@ -16,6 +16,7 @@ var _exploding: bool = false
 func explode() -> void:
 	_exploding = true
 	_anim.play("explode")
+	Globals.get_player().play_box_about_to_explode()
 
 
 func _explode_dirt() -> void:
@@ -26,6 +27,7 @@ func _explode_dirt() -> void:
 			if r.length() <= radius:
 				points.append(r + position)
 	Globals.get_level().fill_dirt(points)
+	Globals.get_player().play_explosion()
 	queue_free()
 
 

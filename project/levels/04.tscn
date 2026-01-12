@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=4 uid="uid://b3aw5vu2rhevu"]
+[gd_scene load_steps=15 format=4 uid="uid://b3aw5vu2rhevu"]
 
 [ext_resource type="PackedScene" uid="uid://drnfb2ioal1wc" path="res://levels/level.tscn" id="1_fcv03"]
 [ext_resource type="Script" uid="uid://dmguq7ekp4xj0" path="res://interactables/water.gd" id="2_c5uux"]
 [ext_resource type="Texture2D" uid="uid://buayg4cbwgjxq" path="res://resources/textures/spritesheet.png" id="3_anhiq"]
+[ext_resource type="AudioStream" uid="uid://c7srg58yvdoei" path="res://resources/sounds/splash.wav" id="3_k76dv"]
 [ext_resource type="Script" uid="uid://cxprnrywgrwmy" path="res://levels/ending-water.gd" id="4_k76dv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eok6"]
@@ -226,34 +227,6 @@ _data = {
 atlas = ExtResource("3_anhiq")
 region = Rect2(32, 24, 16, 64)
 
-[sub_resource type="Animation" id="Animation_u3l0h"]
-resource_name = "explosion"
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true, false, true, false, true, false, true, false]
-}
-
 [sub_resource type="Animation" id="Animation_3eok6"]
 length = 0.001
 tracks/0/type = "value"
@@ -281,6 +254,48 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_u3l0h"]
+resource_name = "explosion"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false, true, false, true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_request_explosion_sfx"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5ev5w"]
 _data = {
 &"RESET": SubResource("Animation_3eok6"),
@@ -303,6 +318,7 @@ segment_count = 32
 player_splash_multiplier = 0.4
 water_physics_speed = 40.0
 wave_energy_loss = 0.005
+sfx = ExtResource("3_k76dv")
 metadata/_custom_type_script = "uid://dmguq7ekp4xj0"
 
 [node name="Area2D" type="Area2D" parent="." index="5"]

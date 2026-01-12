@@ -12,5 +12,7 @@ func _ready() -> void:
 
 
 func _on_pressed() -> void:
+	var hud = Globals.get_hud()
 	var data = LogsDatabase.get_log(log_id)
-	Globals.get_hud().set_text_box(data.text_1, data.text_2)
+	hud.set_text_box(data.text_1, data.text_2)
+	hud.play_blip()

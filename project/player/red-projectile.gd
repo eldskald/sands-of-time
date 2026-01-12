@@ -40,3 +40,4 @@ func _on_body_entered(body: Node2D) -> void:
 		queue_free()
 	else:
 		_anim.play("explosion")
+		Globals.get_player().play_explosion()

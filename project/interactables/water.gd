@@ -20,12 +20,15 @@ extends Node2D
 @export var surface_line_thickness: float = 1.0
 @export var surface_color: Color = Color("ffffff")
 @export var water_fill_color: Color = Color("000000")
+@export var sfx: AudioStream
 
 var segment_data: Array = []
 var recently_splashed: bool = false
 
 var surface_line: Line2D
 var fill_polygon: Polygon2D
+
+var splash_sfx: AudioStreamPlayer
 
 
 @export_tool_button("Update Water") var update_water_button: Callable = func():
@@ -103,6 +106,7 @@ func splash(splash_pos: Vector2, splash_velocity: float) -> void:
 	var index: int = int(clamp(local_x_pos / segment_width, 0, segment_count - 1))
 	segment_data[index]["velocity"] = splash_velocity
 	recently_splashed = true
+	splash_sfx.play()
 	set_process(true)
 
 
@@ -143,6 +147,11 @@ func _initiate_water() -> void:
 	new_collisionshape.shape = new_shape
 	new_collisionshape.position = water_size / 2.0 + Vector2(0, surface_pos_y / 2.0)
 	new_area.add_child(new_collisionshape)
+	
+	var new_audiostream: AudioStreamPlayer = AudioStreamPlayer.new()
+	new_audiostream.stream = sfx
+	add_child(new_audiostream)
+	splash_sfx = new_audiostream
 
 
 func _ready() -> void:

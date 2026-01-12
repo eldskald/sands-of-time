@@ -39,6 +39,13 @@ enum State {
 @onready var _platform_drop_timer: Timer = %PlatformDropTimer
 @onready var _coyote_timer: Timer = %CoyoteJumpTimer
 
+@onready var _jump_sfx: AudioStreamPlayer = $JumpSFX
+@onready var _throw_sfx: AudioStreamPlayer = $ThrowSFX
+@onready var _box_jump_sfx: AudioStreamPlayer = $BoxJumpSFX
+@onready var _dig_sfx: AudioStreamPlayer = $DigSFX
+@onready var _explosion_sfx: AudioStreamPlayer = $ExplosionSFX
+@onready var _box_explode_sfx: AudioStreamPlayer = $BoxAboutToExplodeSFX
+
 var _facing: float = 1.0
 var _state: State = State.STANDING
 var _old_vel: Vector2 = Vector2.ZERO
@@ -93,6 +100,7 @@ func click_on(pos: Vector2) -> void:
 		else:
 			_set_state(State.DIGGING_FORWARD)
 		_digging_on = pos
+		_dig_sfx.play()
 	else:
 		_shards = max(_shards - 1, 0)
 		Globals.get_hud().set_red_shards(_shards)
@@ -105,6 +113,7 @@ func click_on(pos: Vector2) -> void:
 		projectile.set_velocity(dir)
 		Globals.get_level().add_child(projectile)
 		_sprite.animate_throw()
+		_throw_sfx.play()
 
 
 func get_state() -> State:
@@ -123,6 +132,7 @@ func lift_float_box(box: Node) -> void:
 	_set_state(State.LIFTING)
 	velocity = Vector2.ZERO
 	_about_to_lift = box
+	_box_jump_sfx.play()
 
 
 func _is_controllable() -> bool:
@@ -130,6 +140,14 @@ func _is_controllable() -> bool:
 		State.LIFTING, State.BOX_JUMPING, State.DIGGING_DOWN,
 		State.DIGGING_FORWARD, State.DIGGING_UP
 	]
+
+
+func play_explosion() -> void:
+	_explosion_sfx.play()
+
+
+func play_box_about_to_explode() -> void:
+	_box_explode_sfx.play()
 
 
 func _drop_down() -> void:
@@ -169,6 +187,7 @@ func _box_jump() -> void:
 	_set_state(State.AIRBORNE)
 	velocity.y = -box_jump_speed
 	velocity.x = _facing * speed
+	_jump_sfx.play()
 
 
 func _set_state(new_state: State) -> void:
@@ -260,6 +279,7 @@ func _physics_process(delta: float) -> void:
 		if !_coyote_timer.is_stopped() and Input.is_action_just_pressed("jump"):
 			velocity.y = -jump_speed
 			_set_state(State.JUMPING)
+			_jump_sfx.play()
 		if _state == State.JUMPING and velocity.y >= 0.0:
 			_set_state(State.AIRBORNE)
 		if _state == State.JUMPING and Input.is_action_just_released("jump"):
@@ -276,11 +296,13 @@ func _physics_process(delta: float) -> void:
 				Globals.get_level().add_child(box)
 				_carrying = false
 				_sprite.animate_throw()
+				_throw_sfx.play()
 		
 		# Box jumping
 		if _carrying and _state == State.AIRBORNE and Input.is_action_just_pressed("jump"):
 			velocity = Vector2.ZERO
 			_set_state(State.BOX_JUMPING)
+			_box_jump_sfx.play()
 	
 	# Call move_and_slide()
 	move_and_slide()

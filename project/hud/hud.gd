@@ -14,6 +14,8 @@ extends Control
 @onready var _shovel_btn: Button = %ShovelBtn
 @onready var _red_shard_btn: Button = %RedShardBtn
 @onready var _log_buttons: VBoxContainer = %LogButtons
+@onready var _blip: AudioStreamPlayer = %BlipSFX
+@onready var _new_log: AudioStreamPlayer = %NewLogSFX
 
 var _next_prompt: String = ""
 
@@ -33,6 +35,7 @@ func add_log_button(id: int) -> void:
 	var btn = LogButton.new()
 	btn.log_id = id
 	_log_buttons.add_child(btn)
+	_new_log.play()
 
 
 func set_level_title(new_title: String) -> void:
@@ -59,6 +62,7 @@ func set_red_shards(amount: int) -> void:
 	if not _red_shard_btn.visible:
 		_red_shard_btn.show()
 		set_text_box("Red shard obtained. Equip and click to throw.")
+		_new_log.play()
 	_red_shard_btn.text = str(amount) + "/4 R Shards"
 	if amount == 0:
 		_red_shard_btn.disabled = true
@@ -69,15 +73,21 @@ func set_red_shards(amount: int) -> void:
 		_red_shard_btn.disabled = false
 
 
+func play_blip() -> void:
+	_blip.play()
+
+
 func _on_close_button_pressed() -> void:
 	_final_text_container.hide()
 	_final_text_label.text = ""
 	get_tree().paused = false
+	play_blip()
 
 
 func _on_next_button_pressed() -> void:
 	_first_text_container.hide()
 	_first_text_label.text = ""
+	play_blip()
 
 
 func _on_game_screen_gui_input(event: InputEvent) -> void:
@@ -89,9 +99,11 @@ func _on_shovel_btn_pressed() -> void:
 	_red_shard_btn.set_pressed_no_signal(false)
 	_shovel_btn.set_pressed_no_signal(true)
 	_player.equip_shovel()
+	play_blip()
 
 
 func _on_red_shard_btn_pressed() -> void:
 	_red_shard_btn.set_pressed_no_signal(true)
 	_shovel_btn.set_pressed_no_signal(false)
 	_player.equip_shards()
+	play_blip()

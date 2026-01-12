@@ -9,3 +9,7 @@ func _on_body_entered(body: Node2D) -> void:
 	$AnimationPlayer.play("explode")
 	_exploded = true
 	body.queue_free()
+
+
+func _request_explosion_sfx() -> void:
+	Globals.get_player().play_explosion()

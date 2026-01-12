@@ -11,3 +11,4 @@ func _ready() -> void:
 
 func _on_interaction(_player: Player) -> void:
 	_hud.set_text_box(_message_1, _message_2)
+	_hud.play_blip()
