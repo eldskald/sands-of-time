@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://b43ry2ui64eie"]
+
+[ext_resource type="Script" uid="uid://dg60ywnk1nsco" path="res://globals/bgm.gd" id="1_586s6"]
+[ext_resource type="AudioStream" uid="uid://dd5kise07dmhp" path="res://resources/music/Ascend.ogg" id="2_2rvi6"]
+[ext_resource type="AudioStream" uid="uid://0a51cnvlv724" path="res://resources/music/Echoes of Eternity.ogg" id="3_c6inm"]
+[ext_resource type="AudioStream" uid="uid://b6v1xcbbd5t74" path="res://resources/music/Melody Eternal.ogg" id="4_27t4y"]
+[ext_resource type="AudioStream" uid="uid://cnf71ftp8d06t" path="res://resources/music/Pixel River.ogg" id="5_d7vw0"]
+[ext_resource type="AudioStream" uid="uid://buv23qc1bhe44" path="res://resources/music/Taking Poison.ogg" id="6_hf3fe"]
+
+[node name="BGM" type="Node"]
+process_mode = 3
+script = ExtResource("1_586s6")
+
+[node name="Ascend" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_2rvi6")
+
+[node name="EchoesOfEternity" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_c6inm")
+
+[node name="MelodyEternal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_27t4y")
+
+[node name="PixelRiver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_d7vw0")
+
+[node name="TakingPoison" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_hf3fe")
+
+[connection signal="finished" from="Ascend" to="." method="_on_bgm1_finished"]
+[connection signal="finished" from="EchoesOfEternity" to="." method="_on_bgm2_finished"]
+[connection signal="finished" from="MelodyEternal" to="." method="_on_bgm3_finished"]
+[connection signal="finished" from="PixelRiver" to="." method="_on_bgm4_finished"]
+[connection signal="finished" from="TakingPoison" to="." method="_on_bgm5_finished"]

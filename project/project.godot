@@ -19,6 +19,7 @@ config/icon="uid://dw1kpjks24x2m"
 [autoload]
 
 Globals="*res://globals/globals.tscn"
+BGM="*res://globals/bgm.tscn"
 
 [display]
 
